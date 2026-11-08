@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPM2 Money Manager</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 20px;
+  background: #10131b;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+h1 { color: #55aaff; text-align: center; }
+.card {
+  background: #202635;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 18px 0;
+}
+.gold { color: #ffd54a; }
+.cash { color: #49df91; }
+input {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0;
+  border: 1px solid #526078;
+  border-radius: 8px;
+  background: #111722;
+  color: white;
+  font-size: 17px;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 9px;
+  background: #1689ed;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+.result {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+small { color: #aeb8c9; }
+</style>
+</head>
+<body>
+
+<h1>🏎️ CPM2 MONEY MANAGER</h1>
+<p style="text-align:center;color:#aaa">
+Your personal CPM2 companion
+</p>
+
+<div class="card">
+<h2 class="gold">🪙 Gold Coins</h2>
+<input id="gold" type="number" placeholder="Enter your gold balance">
+<button onclick="save()">Save Gold Balance</button>
+</div>
+
+<div class="card">
+<h2 class="cash">💵 Game Cash</h2>
+<input id="cash" type="number" placeholder="Enter your cash balance">
+<button onclick="save()">Save Cash Balance</button>
+</div>
+
+<div class="card">
+<h2>🧮 Upgrade Calculator</h2>
+<label>Current money:</label>
+<input id="current" type="number" placeholder="Current balance">
+
+<label>Upgrade cost:</label>
+<input id="cost" type="number" placeholder="Upgrade price">
+
+<button onclick="calculate()">Calculate</button>
+<div class="result" id="result">Your result appears here.</div>
+</div>
+
+<div class="card">
+<h3>About this app</h3>
+<small>
+CPM2 Money Manager is an independent companion.
+Balances are entered manually and saved on this device.
+It does not connect to or modify your actual CPM2 account.
+</small>
+</div>
+
+<script>
+function save() {
+  localStorage.setItem("gold", document.getElementById("gold").value);
+  localStorage.setItem("cash", document.getElementById("cash").value);
+  alert("Balances saved!");
+}
+
+document.getElementById("gold").value =
+  localStorage.getItem("gold") || "";
+
+document.getElementById("cash").value =
+  localStorage.getItem("cash") || "";
+
+function calculate() {
+  let money = Number(document.getElementById("current").value);
+  let cost = Number(document.getElementById("cost").value);
+  let result = document.getElementById("result");
+
+  if (money < 0 || cost < 0 ||
+      document.getElementById("current").value === "" ||
+      document.getElementById("cost").value === "") {
+    result.innerText = "Enter valid amounts.";
+    return;
+  }
+
+  let remaining = money - cost;
+
+  result.innerText = remaining >= 0
+    ? "You will have " + remaining.toLocaleString() + " remaining."
+    : "You need " + Math.abs(remaining).toLocaleString() + " more.";
+}
+</script>
+
+</body>
+</html>
